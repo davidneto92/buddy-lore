@@ -9,7 +9,7 @@ import { useEffect, useRef } from 'react';
 
 import { createUser, getUserByEmail } from '~/models/user.server';
 import { createUserSession, getUserId } from '~/session.server';
-import { safeRedirect, validateEmail } from '~/utils';
+import { safeRedirect, validateDisplayName, validateEmail } from '~/utils';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
@@ -21,26 +21,32 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const email = formData.get('email');
   const password = formData.get('password');
-  // const displayName = formData.get('displayName');
+  const displayName = formData.get('displayName');
   const redirectTo = safeRedirect(formData.get('redirectTo'), '/');
+
+  const defaultErrors = {
+    email: null,
+    password: null,
+    displayName: null
+  }
 
   if (!validateEmail(email)) {
     return json(
-      { errors: { email: 'Email is invalid', password: null } },
+      { errors: { ...defaultErrors, email: 'Email is invalid' } },
       { status: 400 },
     );
   }
 
   if (typeof password !== 'string' || password.length === 0) {
     return json(
-      { errors: { email: null, password: 'Password is required' } },
+      { errors: { ...defaultErrors, password: 'Password is required' } },
       { status: 400 },
     );
   }
 
   if (password.length < 8) {
     return json(
-      { errors: { email: null, password: 'Password is too short' } },
+      { errors: { ...defaultErrors, password: 'Password is too short' } },
       { status: 400 },
     );
   }
@@ -48,17 +54,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
     return json(
-      {
-        errors: {
-          email: 'A user already exists with this email',
-          password: null,
-        },
-      },
+      { errors: { ...defaultErrors, email: 'A user already exists with this email' } },
       { status: 400 },
     );
   }
 
-  const user = await createUser(email, password);
+  if (!validateDisplayName(displayName)) {
+    return json(
+      { errors: { ...defaultErrors, displayName: 'Display name not provided' } },
+      { status: 400 }
+    )
+  }
+
+  const user = await createUser({ email, displayName }, password);
 
   return createUserSession({
     redirectTo,
@@ -74,7 +82,7 @@ export default function Join() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') ?? undefined;
   const actionData = useActionData<typeof action>();
-  // const displayNameRef = useRef<HTMLInputElement>(null);
+  const displayNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -128,8 +136,8 @@ export default function Join() {
             </label>
             <div className='mt-1'>
               <input
-                id='password'
                 ref={passwordRef}
+                id='password'
                 name='password'
                 type='password'
                 autoComplete='new-password'
@@ -140,6 +148,33 @@ export default function Join() {
               {actionData?.errors?.password ? (
                 <div className='pt-1 text-red-700' id='password-error'>
                   {actionData.errors.password}
+                </div>
+              ) : null}
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor='displayName'
+              className='block text-sm font-medium text-gray-700'
+            >
+              Display Name
+            </label>
+            <div className='mt-1'>
+              <input
+                ref={displayNameRef}
+                id='displayName'
+                name='displayName'
+                type='text'
+                required
+                autoComplete="username"
+                aria-invalid={actionData?.errors?.displayName ? true : undefined}
+                aria-describedby='displayName-error'
+                className='w-full rounded border border-gray-500 px-2 py-1 text-lg'
+              />
+              {actionData?.errors?.displayName ? (
+                <div className='pt-1 text-red-700' id='displayName-error'>
+                  {actionData.errors.displayName}
                 </div>
               ) : null}
             </div>
