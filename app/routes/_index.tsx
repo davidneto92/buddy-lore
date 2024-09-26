@@ -17,16 +17,19 @@ export default function Index() {
         <div className='py-8'>
           {user ? (
             <Link
-              to='/notes'
+              to='javascript:void(0)'
               className='flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-700 shadow-sm hover:bg-blue-50 sm:px-8'
             >
-              View Notes for {user.email}
+              Option to add lore coming soon!
             </Link>
           ) : (
-            <div>
-              <p className='p-4'>Welcome to Cubby Zone</p>
+            <div className='flex flex-col items-center'>
+              <div className='p-4 text-center'>
+                <p className='font-semibold'>Welcome to Cubby Zone</p>
+                <p>A place for the Cubs to keep track of all their lore.</p>
+              </div>
 
-              <div className=''>
+              <div className='flex w-2/3 flex-col'>
                 <Link
                   to='/join'
                   className='flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-700 shadow-sm hover:bg-blue-50 sm:px-8'
