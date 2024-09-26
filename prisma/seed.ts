@@ -1,17 +1,17 @@
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function seed() {
-  const email = "davidneto92@gmail.com";
+  const email = 'dneto23@test.com';
 
   // cleanup the existing database
   await prisma.user.delete({ where: { email } }).catch(() => {
     // no worries if it doesn't exist yet
   });
 
-  const hashedPassword = await bcrypt.hash("davidproject", 10);
+  const hashedPassword = await bcrypt.hash('davidproject', 10);
 
   const user = await prisma.user.create({
     data: {
@@ -28,15 +28,15 @@ async function seed() {
   // to be removed
   await prisma.note.create({
     data: {
-      title: "My first note",
-      body: "Hello, world!",
+      title: 'My first note',
+      body: 'Hello, world!',
       userId: user.id,
     },
   });
   await prisma.note.create({
     data: {
-      title: "My second note",
-      body: "Hello, world!",
+      title: 'My second note',
+      body: 'Hello, world!',
       userId: user.id,
     },
   });
