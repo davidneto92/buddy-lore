@@ -4,18 +4,16 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function seed() {
-  const email = 'dneto23@test.com';
-
   // cleanup the existing database
-  await prisma.user.delete({ where: { email } }).catch(() => {
+  await prisma.user.deleteMany().catch(() => {
     // no worries if it doesn't exist yet
   });
 
   const hashedPassword = await bcrypt.hash('davidproject', 10);
 
-  const user = await prisma.user.create({
+  const userDavid = await prisma.user.create({
     data: {
-      email,
+      email: 'dneto23@test.com',
       displayName: 'dneto23',
       password: {
         create: {
@@ -25,21 +23,41 @@ async function seed() {
     },
   });
 
-  // to be removed
-  await prisma.note.create({
+  const userMike = await prisma.user.create({
     data: {
-      title: 'My first note',
-      body: 'Hello, world!',
-      userId: user.id,
+      email: 'mike6@test.com',
+      displayName: 'migueacheal',
+      password: {
+        create: {
+          hash: hashedPassword,
+        },
+      },
     },
   });
-  await prisma.note.create({
+
+  await prisma.loreEntry.create({
     data: {
-      title: 'My second note',
-      body: 'Hello, world!',
-      userId: user.id,
-    },
-  });
+      title: 'Everyone is here',
+      description: 'This joke is deployed when all but one cubby is present.',
+      isActive: true,
+      examples: [
+        'During the Winter 2023 Cubby Summit, Eddie was not in attendance. However, we still kept saying "Every single cubby is here."'
+      ],
+      creatorId: userDavid.id,
+      authorDate: new Date(1702834200 * 1000)
+    }
+  })
+
+  await prisma.loreEntry.create({
+    data: {
+      title: 'New York Pancake',
+      description: 'A New York Pancake is a flattened rat served on a plate, but the server adds their own twist.',
+      isActive: true,
+      creatorId: userDavid.id,
+      authorId: userMike.id,
+      authorDate: new Date(1702747800 * 1000)
+    }
+  })
 
   console.log(`Database has been seeded. 🌱`);
 }
