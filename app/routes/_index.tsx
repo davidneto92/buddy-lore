@@ -1,26 +1,25 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { Header } from '~/components/Header';
+import { MAIN_TITLE } from '~/constants/pageTitles';
 
 import { useOptionalUser } from '~/utils';
 
-const TITLE = 'Cubby Zone';
-
-export const meta: MetaFunction = () => [{ title: TITLE }];
+export const meta: MetaFunction = () => [{ title: MAIN_TITLE }];
 
 export default function Index() {
   const user = useOptionalUser();
   return (
     <>
-      <Header title={TITLE} />
+      <Header title={MAIN_TITLE} />
       <main className='flex justify-center'>
         <div className='py-8'>
           {user ? (
             <Link
-              to='javascript:void(0)'
+              to='/lore'
               className='flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-700 shadow-sm hover:bg-blue-50 sm:px-8'
             >
-              Option to add lore coming soon!
+              See all Lore Entries
             </Link>
           ) : (
             <div className='flex flex-col items-center'>
