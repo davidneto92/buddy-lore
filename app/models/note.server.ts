@@ -1,3 +1,6 @@
+// keeping around as a Prisma reference until I don't need it!
+// @ts-nocheck
+
 import type { User, Note } from "@prisma/client";
 
 import { prisma } from "~/db.server";
