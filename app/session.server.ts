@@ -24,14 +24,22 @@ export async function getSession(request: Request) {
   return sessionStorage.getSession(cookie);
 }
 
+/**
+ * Gets the ID of the locally signed in user AKA current user.
+ */
 export async function getUserId(
   request: Request,
 ): Promise<User["id"] | undefined> {
   const session = await getSession(request);
   const userId = session.get(USER_SESSION_KEY);
+  console.log('logging userId from getUserId', userId)
   return userId;
 }
 
+/**
+ * Queries db to get the user model for the provided userId.
+ * Will perform a logout if no user is found.
+ */
 export async function getUser(request: Request) {
   const userId = await getUserId(request);
   if (userId === undefined) return null;

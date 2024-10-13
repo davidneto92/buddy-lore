@@ -53,6 +53,9 @@ function isUser(user: unknown): user is User {
   );
 }
 
+/**
+ * Should be used to determine if a user is logged in.
+ */
 export function useOptionalUser(): User | undefined {
   const data = useMatchesData("root");
   if (!data || !isUser(data.user)) {
@@ -61,6 +64,9 @@ export function useOptionalUser(): User | undefined {
   return data.user;
 }
 
+/**
+ * Should be used when user data is required.
+ */
 export function useUser(): User {
   const maybeUser = useOptionalUser();
   if (!maybeUser) {
