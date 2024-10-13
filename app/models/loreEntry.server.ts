@@ -3,7 +3,11 @@ import { prisma } from "~/db.server";
 
 export function getLoreEntry({ id }: Pick<LoreEntry, 'id'>) {
   return prisma.loreEntry.findFirst({
-    where: { id }
+    where: { id },
+    include: {
+      author: true,
+      creator: true
+    }
   })
 }
 

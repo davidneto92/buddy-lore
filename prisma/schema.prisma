@@ -42,15 +42,16 @@ model LoreEntry {
   isActive    Boolean  @default(true)
   examples    String[] @default([])
 
-  // user that added the entry
-  createdBy User   @relation(name: "createdEntries", fields: [creatorId], references: [id])
+  // user that wrote the entry
+  creator   User   @relation(name: "createdEntries", fields: [creatorId], references: [id])
   creatorId String
 
-  // user referenced as joke author
+  // user attributed as lore entry's author
   author   User?   @relation(name: "authorOf", fields: [authorId], references: [id])
   authorId String?
 
-  authorDate DateTime? // date joke was inveted
+  // date lore entry was invented
+  authorDate DateTime?
   loreType   LoreType? @relation(fields: [loreTypeId], references: [id])
   loreTypeId String?
 

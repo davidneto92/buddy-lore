@@ -1,5 +1,5 @@
 import { json, LoaderFunctionArgs } from '@remix-run/node'
-import { isRouteErrorResponse, useLoaderData, useRouteError } from '@remix-run/react'
+import { isRouteErrorResponse, Link, useLoaderData, useRouteError } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { Header } from '~/components/Header'
 import { MAIN_TITLE } from '~/constants/pageTitles'
@@ -22,9 +22,10 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 export default function LoreEntryDetailsPage() {
   const data = useLoaderData<typeof loader>();
   const { loreEntry } = data || {}
-  const { title, authorDate, createdAt, description, examples } = loreEntry || {}
+  const { title, authorDate, createdAt, description, examples, creator, author } = loreEntry || {}
+  const { displayName: creatorDisplayName, id: creatorId } = creator || {}
+  const { displayName: authorDisplayName, id: authorId } = author || {}
   const dateDisplay = new Date(authorDate || createdAt).toLocaleDateString()
-  console.log(loreEntry)
 
   return (
     <>
@@ -34,10 +35,22 @@ export default function LoreEntryDetailsPage() {
           <div className='grid grid-cols-2 gap-y-2'>
             <span className='font-semibold'>Title</span>
             <span>{title}</span>
+
+            {authorId && (<>
+              <span className='font-semibold'>Author</span>
+              <span>
+                <Link to={`/users/${authorId}`}>
+                  {authorDisplayName}
+                </Link>
+              </span>
+            </>)}
+
             <span className='font-semibold'>Date created</span>
             <span>{dateDisplay}</span>
+
             <span className='font-semibold'>Description</span>
             <span>{description}</span>
+
             {examples.length > 0 && (
               <>
                 <span className='font-semibold'>Examples</span>
@@ -50,6 +63,14 @@ export default function LoreEntryDetailsPage() {
                 </div>
               </>
             )}
+
+            <span className='font-semibold'>Entry created by</span>
+            <span>
+              <Link to={`/users/${creatorId}`}>
+                {creatorDisplayName}
+              </Link>
+            </span>
+
           </div>
         </div>
       </main>
