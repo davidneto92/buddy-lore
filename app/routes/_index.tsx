@@ -8,6 +8,7 @@ import { useOptionalUser } from '~/utils';
 export const meta: MetaFunction = () => [{ title: MAIN_TITLE }];
 
 export default function Index() {
+  // May want to remove this hook since we are already using it in the header
   const user = useOptionalUser();
   return (
     <>

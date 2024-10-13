@@ -29,11 +29,11 @@ export default function Lore() {
             </thead>
             <tbody>
               {loreEntries.map(entry => {
-                const loreAddress = `/lore/${entry.id}`
+                const loreEntryUrl = `/lore/${entry.id}`
                 return (
                   <tr key={entry.id}>
                     <td>
-                      <Link to={loreAddress} className='flex'>
+                      <Link to={loreEntryUrl} className='flex'>
                         {entry.title}
                       </Link>
                     </td>
