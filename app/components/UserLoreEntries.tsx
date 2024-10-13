@@ -27,11 +27,11 @@ export function UserLoreEntries({ createdEntries = [], authoredEntries = [] }: I
   return (
     <div className='flex'>
       <div className='grid grid-cols-2 gap-y-2'>
-        <p className='font-semibold'>Created entries</p>
+        <p className='font-semibold'>Recently created entries</p>
         <LoreEntriesList loreEntries={createdEntries} />
         {authoredEntries.length > 0 && (
           <>
-            <p className='font-semibold'>Attributed as author</p>
+            <p className='font-semibold'>Recently attributed as author</p>
             <LoreEntriesList loreEntries={authoredEntries} />
           </>
         )}

@@ -5,7 +5,7 @@ import invariant from 'tiny-invariant'
 import { Header } from '~/components/Header';
 import { UserDisplay } from '~/components/UserDisplay';
 import { UserLoreEntries } from '~/components/UserLoreEntries';
-import { getUserById } from '~/models/user.server';
+import { getUserWithLoreEntries } from '~/models/user.server';
 import { requireUserId } from '~/session.server';
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -13,7 +13,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const { userId } = params || {}
   invariant(userId, 'userId not found')
 
-  const user = await getUserById(userId, true)
+  const user = await getUserWithLoreEntries(userId)
   if (!user) {
     throw new Response('User not found', { status: 404 })
   }

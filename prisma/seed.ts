@@ -12,7 +12,7 @@ async function seed() {
   const userDavid = await prisma.user.create({
     data: {
       email: 'dneto23@test.com',
-      displayName: 'dneto23',
+      displayName: 'davit',
       password: {
         create: {
           hash: await bcrypt.hash('davidproject', 10),
@@ -20,14 +20,57 @@ async function seed() {
       },
     },
   });
-
   const userMike = await prisma.user.create({
     data: {
-      email: 'mike6@test.com',
+      email: 'mike7@test.com',
       displayName: 'migueacheal',
       password: {
         create: {
           hash: await bcrypt.hash('mikeproject', 10),
+        },
+      },
+    },
+  });
+  const userRay = await prisma.user.create({
+    data: {
+      email: 'ray68@test.com',
+      displayName: 'thewal68',
+      password: {
+        create: {
+          hash: await bcrypt.hash('rayproject', 10),
+        },
+      },
+    },
+  });
+  const userJeff = await prisma.user.create({
+    data: {
+      email: 'jeff5@test.com',
+      displayName: 'guelf',
+      password: {
+        create: {
+          hash: await bcrypt.hash('jeffproject', 10),
+        },
+      },
+    },
+  });
+  const userEddie = await prisma.user.create({
+    data: {
+      email: 'eddie8@test.com',
+      displayName: 'edwiss',
+      password: {
+        create: {
+          hash: await bcrypt.hash('eddieproject', 10),
+        },
+      },
+    },
+  });
+  const userDan = await prisma.user.create({
+    data: {
+      email: 'danscan@test.com',
+      displayName: 'dynvel',
+      password: {
+        create: {
+          hash: await bcrypt.hash('danproject', 10),
         },
       },
     },
@@ -43,6 +86,16 @@ async function seed() {
       ],
       creatorId: userDavid.id,
       authorDate: new Date(1702834200 * 1000)
+    }
+  })
+
+  await prisma.loreEntry.create({
+    data: {
+      title: '⚫',
+      description: 'The black dot emoji is used to instruct someone to immediately be quiet. It is commonly used as a message reply, or more softly as a message reaction.',
+      isActive: true,
+      creatorId: userDavid.id,
+      authorId: userDavid.id,
     }
   })
 
