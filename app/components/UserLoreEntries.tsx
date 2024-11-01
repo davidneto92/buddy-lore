@@ -1,12 +1,13 @@
 import { LoreEntry } from '@prisma/client'
+import { SerializeFrom } from '@remix-run/node'
 import { Link } from '@remix-run/react'
 
 interface IUserDisplayProps {
-  createdEntries: LoreEntry[]
-  authoredEntries?: LoreEntry[]
+  createdEntries: SerializeFrom<LoreEntry>[]
+  authoredEntries?: SerializeFrom<LoreEntry>[]
 }
 
-function LoreEntriesList({ loreEntries }: { loreEntries: LoreEntry[] }) {
+function LoreEntriesList({ loreEntries }: { loreEntries: IUserDisplayProps['createdEntries'] }) {
   return (
     <ul>
       {loreEntries.map(({ id, title }) => {

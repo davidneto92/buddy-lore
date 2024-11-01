@@ -1,5 +1,5 @@
 import { Form, Link } from '@remix-run/react';
-import { useOptionalUser } from '~/utils';
+import { useOptionalUser } from '~/util/sessionUtils';
 
 interface IHeaderProps {
   title?: string;

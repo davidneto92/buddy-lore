@@ -7,7 +7,6 @@ import { getLoreEntry } from '~/models/loreEntry.server'
 import { requireUserId } from '~/session.server'
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  console.log(params)
   await requireUserId(request)
   invariant(params.loreId, 'loreId not found')
 

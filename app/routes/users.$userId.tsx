@@ -1,4 +1,3 @@
-import { LoreEntry } from '@prisma/client';
 import { json, type LoaderFunctionArgs } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant'
@@ -32,8 +31,8 @@ export default function UserDetailsPage() {
       <UserDisplay email={email} displayName={displayName} />
       <UserLoreEntries
         // issue where the joins in Prisma are casting the DateTime objects to strings
-        createdEntries={createdEntries as any as LoreEntry[]}
-        authoredEntries={authorOf as any as LoreEntry[]}
+        createdEntries={createdEntries}
+        authoredEntries={authorOf}
       />
     </>
   )

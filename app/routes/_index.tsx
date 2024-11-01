@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 import { Header } from '~/components/Header';
 import { MAIN_TITLE } from '~/constants/pageTitles';
 
-import { useOptionalUser } from '~/utils';
+import { useOptionalUser } from '~/util/sessionUtils';
 
 export const meta: MetaFunction = () => [{ title: MAIN_TITLE }];
 

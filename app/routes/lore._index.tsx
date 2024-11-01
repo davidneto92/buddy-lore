@@ -19,6 +19,10 @@ export default function Lore() {
     <>
       <Header title={MAIN_TITLE} />
       <main className='flex justify-center'>
+        <Link to='/lore/new' className='rounded bg-slate-600 px-4 py-2 text-blue-100 hover:bg-blue-500 active:bg-blue-600'>
+          Create new entry
+        </Link>
+
         <div className='flex items-center'>
           <table className='table-fixed'>
             <thead>
