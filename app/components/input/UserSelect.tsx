@@ -1,30 +1,23 @@
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
+import { SerializeFrom } from '@remix-run/node';
 import { Form, Link } from '@remix-run/react';
-import { useOptionalUser } from '~/util/sessionUtils';
+import { ComponentPropsWithoutRef } from 'react';
+import { getUserSelectItems } from '~/components/input/util';
 
-interface ISelectOptions {
-  value: string | number
-  display: string
+interface IUserSelectProps extends ComponentPropsWithoutRef<'select'> {
+  users: SerializeFrom<User>[]
+  // todo: customize placeholder string for first entry
 }
 
-const getSelectOptions = <T extends string>(items: T[]): string => {
-  return ''
-}
+export function UserSelect({ users = [], ...selectProps }: IUserSelectProps) {
+  const options = getUserSelectItems(users)
 
-interface IUserSelectProps {
-  /**
-   * `name` of the attribute to connect to the Remix `<Form />` component
-   */
-  name: string
-  users: User[]
-}
-
-export function UserSelect({ name, users = [] }: IUserSelectProps) {
   return (
-    <select name={name}>
-      {/* map out names */}
-      <option value='cat'>cat</option>
-      <option value='dog'>dog</option>
+    <select {...selectProps}>
+      <option defaultChecked value="">Select an author</option>
+      {options.map(({ key, value, display }) => (
+        <option key={key} value={value}>{display}</option>
+      ))}
     </select>
   );
 }
