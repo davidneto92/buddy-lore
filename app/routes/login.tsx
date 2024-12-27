@@ -9,7 +9,8 @@ import { useEffect, useRef } from 'react';
 
 import { verifyLogin } from '~/models/user.server';
 import { createUserSession, getUserId } from '~/session.server';
-import { safeRedirect, validateEmail } from '~/util/sessionUtils';
+import { safeRedirect } from '~/util/sessionUtils';
+import { validateEmail } from '~/util/validation';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
