@@ -1,7 +1,5 @@
 import { type ActionFunctionArgs, type LoaderFunctionArgs, json, redirect } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
-// import { useEffect, useRef } from 'react'
-// import invariant from 'tiny-invariant'
 import { Header } from '~/components/Header'
 import { UserSelect } from '~/components/input/UserSelect'
 import { MAIN_TITLE } from '~/constants/pageTitles'
@@ -51,7 +49,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     description,
     isActive,
     authorId,
-    // authorId: typeof authorId === 'string' ? authorId : null,
     authorDate: new Date(authorDate),
     creatorId: userId,
   });
@@ -64,17 +61,6 @@ export default function LoreEntryCreateNewPage() {
   const { users = [] } = data || {}
 
   const actionData = useActionData<typeof action>();
-  // const titleRef = useRef<HTMLInputElement>(null);
-  // const bodyRef = useRef<HTMLTextAreaElement>(null);
-
-  // ref targeting for errors and such?
-  // useEffect(() => {
-  //   if (actionData?.errors?.title) {
-  //     titleRef.current?.focus();
-  //   } else if (actionData?.errors?.body) {
-  //     bodyRef.current?.focus();
-  //   }
-  // }, [actionData]);
 
   const minDate = '2000-01-01'
   const maxDate = getMaxDateSelect()
@@ -86,18 +72,11 @@ export default function LoreEntryCreateNewPage() {
         <Form
           className='flex flex-col gap-5'
           method='post'
-        // style={{
-        //   display: "flex",
-        //   flexDirection: "column",
-        //   gap: 8,
-        //   width: "100%",
-        // }}
         >
           <div>
             <label className="flex w-full flex-col gap-1">
               <span>Title: </span>
               <input
-                // ref={titleRef}
                 name="title"
                 className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
                 aria-invalid={actionData?.errors?.title ? true : undefined}
@@ -117,7 +96,6 @@ export default function LoreEntryCreateNewPage() {
             <label className="flex w-full flex-col gap-1">
               <span>Description: </span>
               <textarea
-                // ref={titleRef}
                 name="description"
                 className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
                 aria-invalid={actionData?.errors?.description ? true : undefined}
@@ -142,7 +120,7 @@ export default function LoreEntryCreateNewPage() {
           </div>
 
           <div>
-            <label className="flex w-full flex-col gap-1">
+            <label className="flex w-full flex-col gap-1" htmlFor='authorId'>
               <span>Author (optional)</span>
               <UserSelect
                 name='authorId'
